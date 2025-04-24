@@ -6,16 +6,15 @@ export default function useLeaderboardList() {
   const query = useQuery({
     queryKey: ["leaderboardList"],
     queryFn: async () => {
-      // Esto retornada los datos cacheados en caso de no tener
-      // conexion a internet
+      // This returns the cached data in case there's no internet connection.
       if (!navigator.onLine) {
         const cached = localStorage.getItem("leaderboardList");
         return { players: cached ? (JSON.parse(cached) as Player[]) : [] };
       }
 
       const res = await getLeaderboardList();
-      // Se guarda en la local storasge para desplegar en cado
-      // de no tener conexion a internet
+      // It is saved in local storage to be displayed in case
+      // there's no internet connection.
       localStorage.setItem("leaderboardList", JSON.stringify(res.players));
       return res;
     },

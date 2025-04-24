@@ -6,16 +6,15 @@ export default function useMarketList() {
   const query = useQuery({
     queryKey: ["marketList"],
     queryFn: async () => {
-      // Esto retornada los datos cacheados en caso de no tener
-      // conexion a internet
+      // This returns the cached data in case there's no internet connection.
       if (!navigator.onLine) {
         const cached = localStorage.getItem("marketList");
         return { items: cached ? (JSON.parse(cached) as MarketItem[]) : [] };
       }
 
       const res = await getMarketList();
-      // Se guarda en la local storasge para desplegar en cado
-      // de no tener conexion a internet
+      // It is saved in local storage to be displayed in case
+      // there's no internet connection.
       localStorage.setItem("marketList", JSON.stringify(res.items));
       return res;
     },
